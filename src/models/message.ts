@@ -1,3 +1,4 @@
-export interface LabelledValue {
-    message: string;
+export interface Message {
+	message: string;
+	date: Date,
 }

@@ -4,13 +4,20 @@ exports[`chatbox has a valid snapshot 1`] = `
 <div
   className="chatbox"
 >
-  <input
-    type="textbox"
-  />
-  <button
-    type="submit"
+  <form
+    onSubmit={[Function]}
   >
-    Send
-  </button>
+    <input
+      onChange={[Function]}
+      type="textbox"
+      value=""
+    />
+    <button
+      disabled={false}
+      type="submit"
+    >
+      Send
+    </button>
+  </form>
 </div>
 `;
