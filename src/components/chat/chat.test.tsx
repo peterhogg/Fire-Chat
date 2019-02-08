@@ -1,15 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import Chat from './index';
 import renderer from 'react-test-renderer';
 
-
-describe("Fire Chat", () =>{
+describe('chat', () =>{
+	
 	it('renders without crashing', () => {
 		const div = document.createElement('div');
-		ReactDOM.render(<App />, div);
+		ReactDOM.render(<Chat />, div);
 		ReactDOM.unmountComponentAtNode(div);
 	});
 
 })
-	
