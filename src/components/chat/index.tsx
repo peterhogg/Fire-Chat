@@ -18,7 +18,6 @@ class Chat extends Component{
 		const messagesRef = await this.db.collection('Messages');
 		const messages: Message[] = [];
 		messagesRef.orderBy('date', 'asc').onSnapshot((messagesData) =>{
-			// console.log("messages",messageData.docs);
 			const messages = messagesData.docs.map((data)=>{
 				const messageData = data.data();
 				messageData.date = messageData.date.toDate();
