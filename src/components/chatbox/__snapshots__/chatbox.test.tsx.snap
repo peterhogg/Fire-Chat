@@ -9,14 +9,21 @@ exports[`chatbox has a valid snapshot 1`] = `
   >
     <input
       onChange={[Function]}
-      type="textbox"
+      type="text"
       value=""
     />
     <button
+      className="btn waves-effect waves-light"
       disabled={false}
+      name="action"
       type="submit"
     >
       Send
+      <i
+        className="material-icons right"
+      >
+        send
+      </i>
     </button>
   </form>
 </div>

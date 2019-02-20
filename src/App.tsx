@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Chatbox from "./components/chatbox";
 import Chat from "./components/chat";
-import Header from "./components/header/index";
-import { HeaderItem } from './models/HeaderItem';
+import Header from "./components/header";
 
 class App extends Component {
 

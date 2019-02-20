@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import firebase from '../../firebase';
 import './chatbox.scss';
 import { Message } from '../../models/message';
+import Button from '@material-ui/core/Button';
 
 class Chatbox extends Component{
 	private db = firebase.firestore();
@@ -47,8 +48,10 @@ class Chatbox extends Component{
 		return (
 			<div className="chatbox">
 				<form onSubmit={(e) => this.sendMessage(e)}>
-					<input type="textbox" value={message} onChange={this.messageChange}/>
-					<button disabled={sending} type="submit">Send</button>
+					<input type="text" value={message} onChange={this.messageChange}/>
+					<Button variant="contained" type="submit" color="primary">
+						send
+					</Button>
 				</form>
 			</div>
 		)
