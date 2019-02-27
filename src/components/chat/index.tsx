@@ -10,14 +10,14 @@ import Grid from '@material-ui/core/Grid';
 import "./chat.scss";
 
 interface IProps {
-	userID: string,
+	user: firebase.User | null,
   }
   
   interface IState {
 	messages: Message[];
   }
 
-class Chat extends React.PureComponent<IProps, IState>{
+class Chat extends Component<IProps, IState>{
 
 	private db = firebase.firestore();
 
@@ -45,6 +45,7 @@ class Chat extends React.PureComponent<IProps, IState>{
 					date: message.date,
 					id: message.id,
 					userID: message.userID,
+					email: message.email,
 				})
 			})
 
@@ -55,7 +56,8 @@ class Chat extends React.PureComponent<IProps, IState>{
 
 	render(){
 		const {messages} = this.state;
-		const {userID} = this.props;
+		const {user} = this.props;
+		const userID = (user)? user.uid : null;
 		return (
 			<div className="chat-wrapper">
 			<Grid>
@@ -66,10 +68,9 @@ class Chat extends React.PureComponent<IProps, IState>{
 							<ListItem key={message.id}> 
 							<ListItemText className={message.userID == userID ? "sent" : "received"} 
 								primary={message.message}
-								secondary={`${message.userID} - ${message.date.toLocaleDateString()}`}
+								secondary={`${message.email} - ${message.date.toLocaleTimeString()}`}
 							/>
 							</ListItem>
-						
 					  )
 				  })}
               </List>

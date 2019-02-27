@@ -13,7 +13,7 @@ class App extends Component {
             <div>
 				<Auth>
 					<Header title="Fire Chat" />
-					<Chat userID="Peter" />
+					<Chat user={null}/>
 					<Chatbox />
 				</Auth>
             </div>
