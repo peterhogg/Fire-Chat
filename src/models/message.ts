@@ -1,5 +1,7 @@
 export interface Message {
+	id?: string,
 	message: string;
 	date: Date,
-	id?: any
+	userID?: any,
+	email: string | null,
 }

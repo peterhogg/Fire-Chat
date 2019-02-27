@@ -4,7 +4,15 @@ import './chatbox.scss';
 import { Message } from '../../models/message';
 import Button from '@material-ui/core/Button';
 
-class Chatbox extends Component{
+interface IProps{
+	user?: firebase.User,
+}
+interface IState{
+	sending: boolean,
+	message: string,
+}
+
+class Chatbox extends Component<IProps, IState>{
 	private db = firebase.firestore();
 	constructor(props: any){
 		super(props);
@@ -27,16 +35,20 @@ class Chatbox extends Component{
 			message: "",
 		});
 
-		const {message} = this.state as any;
-		
-		const newMessage: Message = {
-			message,
-			date: new Date(),
+		const {message} = this.state;
+		const {user} = this.props;
+		if(user){
+			const newMessage: Message = {
+				message,
+				date: new Date(),
+				userID: user.uid,
+				email: user.email,
+			}
+			await this.db.collection("Messages").add(newMessage);
+			this.setState({
+				sending: false,
+			})
 		}
-		await this.db.collection("Messages").add(newMessage);
-		this.setState({
-			sending: false,
-		})
 	}
 
 	messageChange(event: any){
@@ -44,7 +56,7 @@ class Chatbox extends Component{
 	}
 
 	render(){
-		const {sending, message} = this.state as any;
+		const {sending, message} = this.state;
 		return (
 			<div className="chatbox">
 				<form onSubmit={(e) => this.sendMessage(e)}>
