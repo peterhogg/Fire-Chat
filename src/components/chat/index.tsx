@@ -1,8 +1,23 @@
 import React, {Component} from 'react';
 import { Message } from '../../models/message';
 import firebase from '../../firebase';
+import PropTypes from 'prop-types';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Grid from '@material-ui/core/Grid';
 
-class Chat extends Component{
+import "./chat.scss";
+
+interface IProps {
+	userID: string,
+  }
+  
+  interface IState {
+	messages: Message[];
+  }
+
+class Chat extends React.PureComponent<IProps, IState>{
 
 	private db = firebase.firestore();
 
@@ -16,32 +31,51 @@ class Chat extends Component{
 
 	async componentDidMount(){
 		const messagesRef = await this.db.collection('Messages');
-		const messages: Message[] = [];
 		messagesRef.orderBy('date', 'asc').onSnapshot((messagesData) =>{
-			const messages = messagesData.docs.map((data)=>{
+			const messagesArray= messagesData.docs.map((data)=>{
 				const messageData = data.data();
 				messageData.date = messageData.date.toDate();
 				messageData.id = data.id;
 				return messageData;
+			});
+			const messages: Message[] = [];
+			messagesArray.forEach((message: any) =>{
+				messages.push({
+					message: message.message,
+					date: message.date,
+					id: message.id,
+					userID: message.userID,
+				})
 			})
+
 			this.setState({messages});
 		});
 		
 	}
 
 	render(){
-		const {messages} = this.state as any;
+		const {messages} = this.state;
+		const {userID} = this.props;
 		return (
-			<div>
-				{messages.map(({message, date, id}: Message) =>{
-					return (
-					<div key={id}>
-						<div>{message}</div>
-						<div>{date.toDateString()}</div>
-					</div>
-					)}	
-			)}
-			</div>
+			<div className="chat-wrapper">
+			<Grid>
+            <div>
+              <List>
+				  {messages.map((message) => {
+					  return (
+							<ListItem key={message.id}> 
+							<ListItemText className={message.userID == userID ? "sent" : "received"} 
+								primary={message.message}
+								secondary={`${message.userID} - ${message.date.toLocaleDateString()}`}
+							/>
+							</ListItem>
+						
+					  )
+				  })}
+              </List>
+            </div>
+          </Grid>
+		  </div>
 		);
 	}
 }
